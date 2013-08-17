@@ -61,6 +61,7 @@ int randomize_number()
 
 	for(i = 0; i < sorting_size; i++)
 	{
+		sorting_number[i].u = 0;
 		sorting_number[i].n = rand() % 200;
 	}
 

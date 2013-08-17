@@ -6,10 +6,12 @@
 #include "sdl.h"
 
 extern number *sorting_number;
-extern int sorting_size[];
+extern int sorting_size;
 extern int height;
 extern int width;
 extern double line_ratio;
+
+static SDL_Surface *screen = NULL;
 
 int gl_draw()
 {
@@ -21,10 +23,10 @@ int gl_draw()
 	glLoadIdentity();
 
 	glTranslatef(-1, -1, 0);
-	for(i = 0; i < *sorting_size; i++)
+	for(i = 0; i < sorting_size; i++)
 	{
 /*		printf("%d %f %f\n", i, offset, sorting_number[i].n / 100.0); */
-		printf("%d\n", sorting_number[i].n);
+/*		printf("%d\n", sorting_number[i].n); */
 		if(sorting_number[i].u == 1)
 		{
 			glBegin(GL_QUADS);
@@ -57,12 +59,13 @@ int gl_draw()
 
 int sdl_init()
 {
-	if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) != 0)
+	if(SDL_Init(SDL_INIT_VIDEO) != 0)
 	{
 		printf("Unable to initialize SDL: %s", SDL_GetError());
 		return 1;
 	}
-	if(SDL_SetVideoMode(width, height, 16, SDL_OPENGL) == NULL)
+	screen = SDL_SetVideoMode(width, height, 16, SDL_OPENGL);
+	if(screen == NULL)
 	{
 		printf("Can't load video mode: %s\n", SDL_GetError());
 		return 1;
@@ -73,6 +76,7 @@ int sdl_init()
 
 int sdl_exit()
 {
+	SDL_FreeSurface(screen);
 	SDL_Quit();
 
 	return 0;
