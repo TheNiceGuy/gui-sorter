@@ -5,7 +5,8 @@
 #include "global.h"
 #include "sdl.h"
 
-extern number sorting_number[SORTING_SIZE];
+extern number *sorting_number;
+extern int sorting_size[];
 extern int height;
 extern int width;
 extern double line_ratio;
@@ -20,9 +21,10 @@ int gl_draw()
 	glLoadIdentity();
 
 	glTranslatef(-1, -1, 0);
-	for(i = 0; i < SORTING_SIZE; i++)
+	for(i = 0; i < *sorting_size; i++)
 	{
-		printf("%d %f %f\n", i, offset, sorting_number[i].n / 100.0);
+/*		printf("%d %f %f\n", i, offset, sorting_number[i].n / 100.0); */
+		printf("%d\n", sorting_number[i].n);
 		if(sorting_number[i].u == 1)
 		{
 			glBegin(GL_QUADS);

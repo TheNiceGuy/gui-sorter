@@ -1,11 +1,13 @@
 #include <time.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 #include "global.h"
 #include "sdl.h"
 
-number sorting_number[SORTING_SIZE];
+number *sorting_number;
+int sorting_size = 50;
 int height = 600;
 int width  = 1000;
 double line_ratio = 0;
@@ -19,7 +21,11 @@ int main(int argc, char *argv[])
 
 	for (i = 0; i < argc; ++i)
 	{
-		if(strcmp(argv[i], "-h") == 0)
+		if(strcmp(argv[i], "-s") == 0)
+		{
+			sorting_size = atoi(argv[i+1]);
+		}
+		else if(strcmp(argv[i], "-h") == 0)
 		{
 			height = atoi(argv[i+1]);
 		}
@@ -29,16 +35,20 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	line_ratio = 2.0 / SORTING_SIZE;
+	sorting_number = malloc(sizeof(number) * sorting_size);
+	line_ratio = 2.0 / sorting_size;
 
 	sdl_init();
-
 	randomize_number();
+
 	gl_draw();
 	bubble_sort();
+	gl_draw();
 
 	sdl_pause();
 	sdl_exit();
+
+	free(sorting_number);
 
 	return 0;
 }
@@ -49,7 +59,7 @@ int randomize_number()
 
 	srand(time(NULL));
 
-	for(i = 0; i < SORTING_SIZE; i++)
+	for(i = 0; i < sorting_size; i++)
 	{
 		sorting_number[i].n = rand() % 200;
 	}
@@ -67,7 +77,7 @@ int bubble_sort()
 	while(end == 0)
 	{
 		end = 1;
-		for(i = 0; i < SORTING_SIZE - 1; i++)
+		for(i = 0; i < sorting_size - 1; i++)
 		{
 			sorting_number[i].u = 1;
 			a = sorting_number[i].n;
