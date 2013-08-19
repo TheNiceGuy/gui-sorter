@@ -7,7 +7,7 @@
 #include "sdl.h"
 
 number *sorting_number;
-int sorting_size = 50;
+int sorting_size = 20;
 int height = 600;
 int width  = 1000;
 double line_ratio = 0;
